@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Donation System - Login</title>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/login.css">
+    <style>
+    
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="../index.html" class="navbar-brand">Rokto-Link</a>
+            <div class="navbar-links">
+                <a href="../index.html" class="btn-home">Home</a>
+                <a href="register.html" class="btn-register">Register</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="login-container">
+        <h2>Login to BloodLink</h2>
+
+        <!-- Login Form -->
+        <form action="php/login_user.php" method="POST" id="loginForm">
+            <div class="form-group">
+                <label for="identifier">Username or Email</label>
+                <input type="text" id="identifier" name="identifier" placeholder="Enter your username or email" required>
+                <p id="identifierError" class="error-message">Please enter your username or email.</p>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                <p id="passwordError" class="error-message">Password cannot be empty.</p>
+            </div>
+
+            <!-- Server-side error message placeholder -->
+            <?php
+                // This PHP block is a placeholder for displaying server-side errors.
+                // In a real scenario, this page would be rendered by PHP after a failed login attempt,
+                // passing an error message via URL parameter or session.
+                if (isset($_GET['error'])) {
+                    echo '<p class="server-error">' . htmlspecialchars($_GET['error']) . '</p>';
+                }
+            ?>
+
+            <button type="submit" class="login-button">Login</button>
+        </form>
+
+        <p class="register-link">
+            Don't have an account? <a href="register.html">Register here</a>
+        </p>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 BloodLink. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Contact Us</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Client-side validation script -->
+    <script src="js/validation.js"></script>
+    <script>
+        // Basic client-side validation for login form
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginForm = document.getElementById('loginForm');
+            if (loginForm) {
+                loginForm.addEventListener('submit', function(event) {
+                    let isValid = true;
+
+                    // Validate Username/Email
+                    const identifierInput = document.getElementById('identifier');
+                    const identifierError = document.getElementById('identifierError');
+                    if (identifierInput.value.trim() === '') {
+                        identifierError.style.display = 'block';
+                        isValid = false;
+                    } else {
+                        identifierError.style.display = 'none';
+                    }
+
+                    // Validate Password
+                    const passwordInput = document.getElementById('password');
+                    const passwordError = document.getElementById('passwordError');
+                    if (passwordInput.value.trim() === '') {
+                        passwordError.style.display = 'block';
+                        isValid = false;
+                    } else {
+                        passwordError.style.display = 'none';
+                    }
+
+                    if (!isValid) {
+                        event.preventDefault(); // Prevent form submission if validation fails
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

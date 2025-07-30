@@ -1,0 +1,409 @@
+/* Basic Reset & Global Body Styles */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Container for content width - used on most main sections */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+/* --- Navigation Bar Styles --- */
+.navbar {
+    background-color: #c0392b; /* Darker Red */
+    padding: 15px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    display: flex;
+    justify-content: center; /* Center the content */
+    align-items: center;
+    position: relative; /* Ensure it stays at the top */
+    z-index: 1000; /* Ensure it's above other content */
+}
+
+.navbar-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    max-width: 1200px;
+}
+
+.navbar-brand {
+    color: #fff;
+    font-size: 28px;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.navbar-brand:hover {
+    background-color: #a93226; /* Slightly darker on hover */
+}
+
+.navbar-links a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 20px;
+    margin-left: 10px;
+    border-radius: 5px;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    white-space: nowrap; /* Prevent links from wrapping */
+}
+
+.navbar-links a:hover {
+    background-color: #e74c3c; /* Lighter red on hover */
+    transform: translateY(-2px);
+}
+
+/* Specific button styles for navbar links */
+.navbar-links .btn-login,
+.navbar-links .btn-home,
+.navbar-links .btn-dashboard {
+    background-color: #fff;
+    color: #c0392b;
+}
+
+.navbar-links .btn-login:hover,
+.navbar-links .btn-home:hover,
+.navbar-links .btn-dashboard:hover {
+    background-color: #eee;
+}
+
+.navbar-links .btn-register,
+.navbar-links .btn-logout {
+    background-color: #e74c3c; /* Red */
+    color: #fff;
+}
+
+.navbar-links .btn-register:hover,
+.navbar-links .btn-logout:hover {
+    background-color: #a93226;
+}
+
+/* Welcome message in navbar for logged-in users */
+.navbar-links span {
+    color: #fff;
+    font-weight: 600;
+    margin-right: 15px;
+    white-space: nowrap;
+}
+
+/* --- Main Content Area Styles (for pages like login, register, search, manage) --- */
+.main-container {
+    flex: 1; /* Allows content area to grow and fill space */
+    width: 90%;
+    max-width: 900px; /* Default max-width, can be overridden by specific pages */
+    margin: 40px auto; /* Center content and add vertical margin */
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    box-sizing: border-box; /* Include padding in width calculation */
+}
+
+.main-container h2 {
+    font-size: 2.8em;
+    color: #333;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+    text-align: center;
+}
+
+/* --- Form General Styles --- */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+.form-row .form-group {
+    flex: 1; /* Distribute space equally */
+    min-width: 250px; /* Minimum width for form groups in a row */
+    margin-bottom: 0; /* Remove default margin-bottom when in a row */
+}
+
+.form-group label {
+    display: block;
+    font-size: 1em;
+    color: #555;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"],
+.form-group input[type="date"],
+.form-group input[type="tel"],
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    box-sizing: border-box; /* Include padding in width */
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #e74c3c;
+    box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2);
+}
+
+.error-message-inline { /* Used for client-side validation errors */
+    color: #e74c3c;
+    font-size: 0.9em;
+    margin-top: 5px;
+    display: none; /* Hidden by default, shown by JS */
+}
+
+.submit-button, .login-button, .register-button, .search-button {
+    width: 100%;
+    padding: 15px;
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.submit-button:hover, .login-button:hover, .register-button:hover, .search-button:hover {
+    background-color: #c0392b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* --- Messages from PHP (Server-side) --- */
+.success-message {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.error-message { /* Used for server-side errors */
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* --- Table General Styles (for search results, admin listings) --- */
+.table-section h3 {
+    font-size: 2em;
+    color: #c0392b;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.table-container {
+    overflow-x: auto; /* Allows horizontal scrolling on small screens */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+}
+
+.data-table { /* Generic table class */
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px; /* Ensure table doesn't get too narrow */
+}
+
+.data-table th,
+.data-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.data-table th {
+    background-color: #f2f2f2;
+    color: #333;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9em;
+}
+
+.data-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.data-table tbody tr:hover {
+    background-color: #fdeaea; /* Light red on hover */
+}
+
+.no-records, .no-results {
+    text-align: center;
+    color: #555;
+    padding: 20px;
+    font-style: italic;
+    background-color: #fff;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    margin-top: 20px;
+}
+
+/* --- Action Buttons (Edit, Delete) --- */
+.action-button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+    text-decoration: none; /* For anchor tags */
+    display: inline-block;
+    margin-right: 5px; /* Space between buttons */
+}
+
+.edit-button {
+    background-color: #3498db; /* Blue */
+    color: #fff;
+}
+
+.edit-button:hover {
+    background-color: #2980b9;
+}
+
+.delete-button {
+    background-color: #e74c3c; /* Red */
+    color: #fff;
+}
+
+.delete-button:hover {
+    background-color: #c0392b;
+}
+
+/* --- Footer Styles --- */
+.footer {
+    background-color: #333;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+    width: 100%;
+    margin-top: auto; /* Push footer to the bottom */
+    box-sizing: border-box;
+}
+
+.footer p {
+    margin-bottom: 10px;
+    font-size: 0.8em;
+    color: #ccc;
+}
+
+.footer-links a {
+    color: #ccc;
+    text-decoration: none;
+    margin: 0 10px;
+    transition: color 0.3s ease;
+    font-size: 0.8em;
+}
+
+.footer-links a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+/* --- Responsive Design (General) --- */
+@media (max-width: 992px) {
+    .main-container {
+        width: 95%;
+        margin: 20px auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .navbar-brand {
+        margin-bottom: 15px;
+    }
+
+    .navbar-links a {
+        margin: 0 5px 10px 5px;
+        display: block;
+    }
+
+    .main-container {
+        padding: 20px;
+    }
+
+    .main-container h2 {
+        font-size: 2.2em;
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .form-row .form-group {
+        min-width: unset;
+    }
+
+    .submit-button, .login-button, .register-button, .search-button {
+        font-size: 1.1em;
+        padding: 12px;
+    }
+
+    .data-table th,
+    .data-table td {
+        padding: 10px;
+        font-size: 0.85em;
+    }
+
+    .action-button {
+        padding: 6px 10px;
+        font-size: 0.8em;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-container h2 {
+        font-size: 1.8em;
+    }
+    .submit-button, .login-button, .register-button, .search-button {
+        font-size: 1em;
+        padding: 10px 20px;
+    }
+}

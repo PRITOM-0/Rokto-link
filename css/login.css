@@ -1,0 +1,261 @@
+    /* Basic Reset & Body Styles for Login Page */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center; /* Center content vertically */
+        }
+
+        /* Navigation Bar (similar to index.html, adjusted for login page context) */
+        .navbar {
+            background-color: #c0392b; /* Darker Red */
+            padding: 15px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            width: 100%; /* Full width */
+            position: absolute; /* Position at the top */
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .navbar-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 90%;
+            max-width: 1200px;
+        }
+
+        .navbar-brand {
+            color: #fff;
+            font-size: 28px;
+            font-weight: bold;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar-brand:hover {
+            background-color: #a93226;
+        }
+
+        .navbar-links a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            margin-left: 10px;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .navbar-links a:hover {
+            background-color: #e74c3c;
+            transform: translateY(-2px);
+        }
+
+        .navbar-links .btn-home {
+            background-color: #fff;
+            color: #c0392b;
+        }
+
+        .navbar-links .btn-home:hover {
+            background-color: #eee;
+        }
+
+        .navbar-links .btn-register {
+            background-color: #e74c3c;
+            color: #fff;
+        }
+
+        .navbar-links .btn-register:hover {
+            background-color: #c0392b;
+        }
+
+        /* Login Form Container */
+        .login-container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+            margin-top: 100px; /* Space from navbar */
+            margin-bottom: 20px; /* Space from footer if present */
+            box-sizing: border-box; /* Include padding in width */
+        }
+
+        .login-container h2 {
+            font-size: 2.5em;
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 1em;
+            color: #555;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            box-sizing: border-box; /* Include padding in width */
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input[type="text"]:focus,
+        .form-group input[type="password"]:focus {
+            outline: none;
+            border-color: #e74c3c;
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2);
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.9em;
+            margin-top: 5px;
+            display: none; /* Hidden by default, shown by JS */
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 15px;
+            background-color: #e74c3c;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-button:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 0.95em;
+            color: #555;
+        }
+
+        .register-link a {
+            color: #e74c3c;
+            text-decoration: none;
+            font-weight: bold;
+            transition: text-decoration 0.3s ease;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Server-side error message styling */
+        .server-error {
+            color: #e74c3c;
+            font-size: 0.9em;
+            text-align: center;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+
+        /* Footer (similar to index.html) */
+        .footer {
+            background-color: #333;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            width: 100%;
+            bottom: 0;
+            left: 0;
+            box-sizing: border-box;
+        }
+
+        .footer p {
+            margin-bottom: 10px;
+            font-size: 0.8em;
+            color: #ccc;
+        }
+
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+            font-size: 0.8em;
+        }
+
+        .footer-links a:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        /* Responsive Design for Login Page */
+        @media (max-width: 768px) {
+            .navbar-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .navbar-brand {
+                margin-bottom: 15px;
+            }
+
+            .navbar-links a {
+                margin: 0 5px 10px 5px;
+                display: block;
+            }
+
+            .login-container {
+                margin-top: 80px;
+                padding: 30px;
+                width: 90%;
+            }
+
+            .login-container h2 {
+                font-size: 2em;
+            }
+
+            .login-button {
+                font-size: 1.1em;
+                padding: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 25px;
+                margin-top: 70px;
+            }
+
+            .login-container h2 {
+                font-size: 1.8em;
+            }
+        }

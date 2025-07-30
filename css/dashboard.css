@@ -1,0 +1,246 @@
+/* Dashboard-Specific Styles */
+
+/* Main Content Area for Dashboard */
+.main-content-area {
+    display: flex;
+    flex: 1; /* Allows content area to grow and fill space */
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto; /* Center content and add vertical margin */
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Ensures rounded corners apply correctly */
+}
+
+/* Sidebar Navigation */
+.sidebar {
+    width: 250px;
+    background-color: #34495e; /* Dark blue-grey */
+    padding: 30px 0;
+    color: #fff;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0; /* Prevent sidebar from shrinking */
+}
+
+.sidebar h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 1.8em;
+    color: #ecf0f1; /* Light grey */
+    padding: 0 20px;
+}
+
+.sidebar-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-links a {
+    display: block;
+    padding: 15px 20px;
+    color: #ecf0f1;
+    text-decoration: none;
+    font-size: 1.1em;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border-left: 5px solid transparent; /* For active indicator */
+}
+
+.sidebar-links a:hover {
+    background-color: #4a627a; /* Lighter blue-grey on hover */
+    border-left-color: #e74c3c; /* Red highlight on hover */
+}
+
+.sidebar-links a.active {
+    background-color: #e74c3c; /* Red for active link */
+    border-left-color: #fff; /* White highlight for active */
+    font-weight: bold;
+}
+
+/* Dashboard Content Area */
+.dashboard-content {
+    flex-grow: 1; /* Allows content to take remaining space */
+    padding: 30px;
+}
+
+.dashboard-content h2 {
+    font-size: 2.8em;
+    color: #333;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.dashboard-content p {
+    font-size: 1.1em;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.dashboard-section-title {
+    font-size: 2em;
+    color: #c0392b;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+/* Info Cards (for Donor/Recipient Dashboards) */
+.dashboard-info-card {
+    background-color: #fdeaea; /* Light red background */
+    border: 1px solid #f0b2b2;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.dashboard-info-card h4 {
+    font-size: 1.5em;
+    color: #c0392b;
+    margin-bottom: 10px;
+}
+
+.dashboard-info-card p {
+    font-size: 1em;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.dashboard-action-button {
+    display: inline-block;
+    background-color: #e74c3c;
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease;
+}
+
+.dashboard-action-button:hover {
+    background-color: #c0392b;
+}
+
+/* Admin Dashboard Grid */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.dashboard-admin-card {
+    background-color: #eef7f9; /* Light blue-grey */
+    border: 1px solid #d0e0e3;
+    border-radius: 8px;
+    padding: 25px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dashboard-admin-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+}
+
+.dashboard-admin-card h4 {
+    font-size: 1.8em;
+    color: #34495e;
+    margin-bottom: 15px;
+}
+
+.dashboard-admin-card p {
+    font-size: 1em;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* Responsive Design for Dashboard */
+@media (max-width: 992px) {
+    .main-content-area {
+        flex-direction: column;
+        margin: 10px auto;
+        width: 95%;
+    }
+
+    .sidebar {
+        width: 100%;
+        padding: 20px 0;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .sidebar h2 {
+        margin-bottom: 20px;
+    }
+
+    .sidebar-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .sidebar-links a {
+        border-left: none;
+        border-bottom: 3px solid transparent;
+        padding: 10px 15px;
+        font-size: 1em;
+    }
+
+    .sidebar-links a:hover {
+        border-left-color: transparent;
+        border-bottom-color: #e74c3c;
+    }
+
+    .sidebar-links a.active {
+        border-left-color: transparent;
+        border-bottom-color: #fff;
+    }
+
+    .dashboard-content {
+        padding: 20px;
+    }
+
+    .dashboard-content h2 {
+        font-size: 2.2em;
+    }
+
+    .dashboard-section-title {
+        font-size: 1.8em;
+    }
+
+    .dashboard-admin-card h4 {
+        font-size: 1.6em;
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-content h2 {
+        font-size: 2em;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard-content h2 {
+        font-size: 1.8em;
+    }
+    .dashboard-section-title {
+        font-size: 1.5em;
+    }
+    .dashboard-info-card h4, .dashboard-admin-card h4 {
+        font-size: 1.3em;
+    }
+    .dashboard-action-button {
+        padding: 8px 15px;
+        font-size: 0.8em;
+    }
+}
