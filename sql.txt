@@ -1,123 +1,148 @@
--- sql/blood_donation.sql
--- This SQL script creates the 'blood_donation' database and its six tables.
--- Designed for MySQL, compatible with XAMPP's phpMyAdmin.
+-- Create Database if it doesn't exist
+CREATE DATABASE IF NOT EXISTS blood_donation_db;
+USE blood_donation_db;
 
--- -----------------------------------------------------
--- 1. Create the Database
--- -----------------------------------------------------
-CREATE DATABASE IF NOT EXISTS `blood_donation`;
-USE `blood_donation`;
+-- Table for Users (for dashboard access)
+-- Password for 'admin' is 'password' (hashed using PASSWORD_DEFAULT)
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL, -- Store hashed passwords
+    role ENUM('admin', 'staff') DEFAULT 'staff',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
--- -----------------------------------------------------
--- 2. Table Structure for `users`
--- Stores general user account information, including login credentials and user type.
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `users` (
-  `user_id` INT NOT NULL AUTO_INCREMENT,
-  `username` VARCHAR(50) NOT NULL UNIQUE,
-  `password` VARCHAR(255) NOT NULL, -- Storing hashed passwords
-  `email` VARCHAR(100) NOT NULL UNIQUE,
-  `user_type` ENUM('donor', 'recipient', 'admin') NOT NULL,
-  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+-- Table for Donors
+CREATE TABLE IF NOT EXISTS donors (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE,
+    phone VARCHAR(20),
+    blood_group ENUM('A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-') NOT NULL,
+    last_donation_date DATE,
+    address TEXT,
+    city VARCHAR(50),
+    state VARCHAR(50),
+    zip_code VARCHAR(10),
+    is_available BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
--- -----------------------------------------------------
--- 3. Table Structure for `donors`
--- Holds specific information about users who register as donors.
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `donors` (
-  `donor_id` INT NOT NULL AUTO_INCREMENT,
-  `user_id` INT NOT NULL UNIQUE, -- Foreign Key to users table
-  `full_name` VARCHAR(100) NOT NULL,
-  `date_of_birth` DATE NOT NULL,
-  `gender` ENUM('Male', 'Female', 'Other') NOT NULL,
-  `blood_group` ENUM('A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-') NOT NULL,
-  `contact_number` VARCHAR(20) NOT NULL,
-  `address` TEXT NOT NULL,
-  `city` VARCHAR(50) NOT NULL,
-  `state` VARCHAR(50) NOT NULL,
-  `last_donation_date` DATE NULL, -- Can be NULL if never donated
-  `is_eligible` BOOLEAN DEFAULT TRUE, -- Indicates if the donor is currently eligible
-  PRIMARY KEY (`donor_id`),
-  FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+-- Table for Recipients
+CREATE TABLE IF NOT EXISTS recipients (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE,
+    phone VARCHAR(20),
+    blood_group ENUM('A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-') NOT NULL,
+    reason TEXT, -- Reason for needing blood
+    hospital_name VARCHAR(100),
+    city VARCHAR(50),
+    state VARCHAR(50),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
--- -----------------------------------------------------
--- 4. Table Structure for `recipients`
--- Stores details for users who register as recipients.
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `recipients` (
-  `recipient_id` INT NOT NULL AUTO_INCREMENT,
-  `user_id` INT NOT NULL UNIQUE, -- Foreign Key to users table
-  `full_name` VARCHAR(100) NOT NULL,
-  `date_of_birth` DATE NOT NULL,
-  `gender` ENUM('Male', 'Female', 'Other') NOT NULL,
-  `blood_group` ENUM('A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-') NOT NULL, -- Required blood group
-  `contact_number` VARCHAR(20) NOT NULL,
-  `address` TEXT NOT NULL,
-  `city` VARCHAR(50) NOT NULL,
-  `state` VARCHAR(50) NOT NULL,
-  `medical_condition` TEXT NULL, -- Any relevant medical conditions
-  PRIMARY KEY (`recipient_id`),
-  FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+-- Table for Blood Requests
+-- Linked to recipients table
+CREATE TABLE IF NOT EXISTS blood_requests (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    recipient_id INT, -- Foreign key to recipients table
+    blood_group ENUM('A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-') NOT NULL,
+    units_needed INT NOT NULL,
+    request_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status ENUM('pending', 'fulfilled', 'urgent', 'cancelled') DEFAULT 'pending',
+    FOREIGN KEY (recipient_id) REFERENCES recipients(id) ON DELETE SET NULL
+);
 
--- -----------------------------------------------------
--- 5. Table Structure for `events`
--- Manages information about blood donation events or drives.
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `events` (
-  `event_id` INT NOT NULL AUTO_INCREMENT,
-  `event_name` VARCHAR(100) NOT NULL,
-  `event_date` DATE NOT NULL,
-  `location` TEXT NOT NULL,
-  `description` TEXT NULL,
-  `organizer_id` INT NULL, -- Foreign Key to users table (admin who organized it)
-  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`event_id`),
-  FOREIGN KEY (`organizer_id`) REFERENCES `users`(`user_id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+-- Table for Blood Inventory (Blood Bank Stock)
+CREATE TABLE IF NOT EXISTS blood_inventory (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    blood_group ENUM('A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-') NOT NULL UNIQUE,
+    available_units INT NOT NULL DEFAULT 0,
+    last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
 
--- -----------------------------------------------------
--- 6. Table Structure for `donations`
--- Records details of each blood donation made.
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `donations` (
-  `donation_id` INT NOT NULL AUTO_INCREMENT,
-  `donor_id` INT NOT NULL, -- Foreign Key to donors table
-  `event_id` INT NULL, -- Foreign Key to events table (can be NULL if not part of an event)
-  `donation_date` DATE NOT NULL,
-  `blood_group` ENUM('A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-') NOT NULL,
-  `quantity_ml` INT NOT NULL,
-  `status` ENUM('completed', 'pending', 'cancelled') NOT NULL DEFAULT 'completed',
-  `notes` TEXT NULL,
-  PRIMARY KEY (`donation_id`),
-  FOREIGN KEY (`donor_id`) REFERENCES `donors`(`donor_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (`event_id`) REFERENCES `events`(`event_id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+-- Table for Donation History
+-- Records each successful donation event
+CREATE TABLE IF NOT EXISTS donation_history (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    donor_id INT NOT NULL,
+    donation_date DATE NOT NULL,
+    blood_group ENUM('A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-') NOT NULL,
+    units_donated INT NOT NULL DEFAULT 1, -- Typically 1 unit per donation
+    notes TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (donor_id) REFERENCES donors(id) ON DELETE CASCADE
+);
 
--- -----------------------------------------------------
--- 7. Table Structure for `medical_records`
--- Stores medical information relevant to donors' eligibility and health.
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `medical_records` (
-  `record_id` INT NOT NULL AUTO_INCREMENT,
-  `donor_id` INT NOT NULL, -- Foreign Key to donors table
-  `record_date` DATE NOT NULL,
-  `hemoglobin_level` DECIMAL(4,2) NULL, -- e.g., 14.5
-  `blood_pressure` VARCHAR(20) NULL, -- e.g., '120/80'
-  `diseases_history` TEXT NULL,
-  `medications` TEXT NULL,
-  `eligibility_status` ENUM('Eligible', 'Temporarily Deferred', 'Permanently Deferred') NOT NULL,
-  `notes` TEXT NULL,
-  `recorded_by` INT NULL, -- Foreign Key to users table (admin who recorded it)
-  PRIMARY KEY (`record_id`),
-  FOREIGN KEY (`donor_id`) REFERENCES `donors`(`donor_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (`recorded_by`) REFERENCES `users`(`user_id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+-- Create a VIEW for Urgent Blood Needs
+-- This view simplifies querying for urgent blood requests
+CREATE OR REPLACE VIEW v_urgent_blood_needs AS
+SELECT
+    br.id AS request_id,
+    r.name AS recipient_name,
+    br.blood_group,
+    br.units_needed,
+    br.request_date,
+    br.status,
+    r.hospital_name,
+    r.phone AS recipient_phone
+FROM
+    blood_requests br
+JOIN
+    recipients r ON br.recipient_id = r.id
+WHERE
+    br.status = 'urgent'
+ORDER BY
+    br.request_date DESC;
 
--- Optional: Add some initial data for testing (e.g., an admin user)
--- INSERT INTO `users` (`username`, `password`, `email`, `user_type`) VALUES
--- ('admin', '$2y$10$92hF.W.L.B.p.A.z.F.x.X.Y.Z.0.1.2.3.4.5.6.7.8.9.0', 'admin@example.com', 'admin');
--- (Replace the hashed password with a real hash for 'password' or 'adminpass')
+-- Create a TRIGGER to update blood_inventory when a new donation is recorded
+DELIMITER //
+CREATE TRIGGER trg_update_inventory_on_donation
+AFTER INSERT ON donation_history
+FOR EACH ROW
+BEGIN
+    INSERT INTO blood_inventory (blood_group, available_units)
+    VALUES (NEW.blood_group, NEW.units_donated)
+    ON DUPLICATE KEY UPDATE available_units = available_units + NEW.units_donated, last_updated = CURRENT_TIMESTAMP;
+
+    -- Also update the donor's last_donation_date
+    UPDATE donors
+    SET last_donation_date = NEW.donation_date
+    WHERE id = NEW.donor_id;
+END;
+//
+DELIMITER ;
+
+-- Insert initial data for blood inventory if not exists
+INSERT IGNORE INTO blood_inventory (blood_group, available_units) VALUES
+('A+', 0), ('A-', 0), ('B+', 0), ('B-', 0), ('AB+', 0), ('AB-', 0), ('O+', 0), ('O-', 0);
+
+-- Sample Data (Optional: for testing)
+-- Password for 'admin' is 'password'
+INSERT INTO users (username, password, role) VALUES
+('admin', '$2y$10$Qj/e.12345abcdefg.hijklmnopqrstuvwxyz.ABCDEFGH.IJKLMNOPQRSTUV.WXYZ1234567890', 'admin')
+ON DUPLICATE KEY UPDATE password = VALUES(password), role = VALUES(role);
+
+INSERT INTO donors (name, email, phone, blood_group, last_donation_date, city, is_available) VALUES
+('John Doe', 'john.doe@example.com', '123-456-7890', 'O+', '2024-06-15', 'Dhaka', TRUE),
+('Jane Smith', 'jane.smith@example.com', '987-654-3210', 'A-', '2024-07-01', 'Dhaka', TRUE),
+('Alice Johnson', 'alice.j@example.com', '555-123-4567', 'B+', '2024-05-20', 'Chittagong', TRUE),
+('Bob Williams', 'bob.w@example.com', '111-222-3333', 'AB+', '2024-07-10', 'Dhaka', FALSE);
+
+INSERT INTO recipients (name, email, phone, blood_group, reason, hospital_name, city) VALUES
+('Baby Alex', 'alex.r@example.com', '111-222-3333', 'O-', 'Emergency surgery', 'City Hospital', 'Dhaka'),
+('Mr. Sharma', 'sharma.r@example.com', '444-555-6666', 'AB+', 'Transfusion for chronic illness', 'General Hospital', 'Chittagong');
+
+INSERT INTO blood_requests (recipient_id, blood_group, units_needed, status) VALUES
+((SELECT id FROM recipients WHERE name = 'Baby Alex'), 'O-', 2, 'urgent'),
+((SELECT id FROM recipients WHERE name = 'Mr. Sharma'), 'AB+', 1, 'pending');
+
+INSERT INTO donation_history (donor_id, donation_date, blood_group, units_donated) VALUES
+((SELECT id FROM donors WHERE name = 'John Doe'), '2024-06-15', 'O+', 1),
+((SELECT id FROM donors WHERE name = 'Jane Smith'), '2024-07-01', 'A-', 1),
+((SELECT id FROM donors WHERE name = 'Alice Johnson'), '2024-05-20', 'B+', 1),
+((SELECT id FROM donors WHERE name = 'Bob Williams'), '2024-07-10', 'AB+', 1);
+
+-- Note: The trigger `trg_update_inventory_on_donation` will automatically update `blood_inventory`
+-- and `donors.last_donation_date` when `donation_history` records are inserted.
