@@ -2,15 +2,6 @@
 CREATE DATABASE IF NOT EXISTS blood_donation_db;
 USE blood_donation_db;
 
--- Table for Users (for dashboard access)
--- Password for 'admin' is 'password' (hashed using PASSWORD_DEFAULT)
-CREATE TABLE IF NOT EXISTS users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL, -- Store hashed passwords
-    role ENUM('admin', 'staff') DEFAULT 'staff',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
 
 -- Table for Donors
 CREATE TABLE IF NOT EXISTS donors (
@@ -118,11 +109,6 @@ DELIMITER ;
 INSERT IGNORE INTO blood_inventory (blood_group, available_units) VALUES
 ('A+', 0), ('A-', 0), ('B+', 0), ('B-', 0), ('AB+', 0), ('AB-', 0), ('O+', 0), ('O-', 0);
 
--- Sample Data (Optional: for testing)
--- Password for 'admin' is 'password'
-INSERT INTO users (username, password, role) VALUES
-('admin', '$2y$10$Qj/e.12345abcdefg.hijklmnopqrstuvwxyz.ABCDEFGH.IJKLMNOPQRSTUV.WXYZ1234567890', 'admin')
-ON DUPLICATE KEY UPDATE password = VALUES(password), role = VALUES(role);
 
 INSERT INTO donors (name, email, phone, blood_group, last_donation_date, city, is_available) VALUES
 ('John Doe', 'john.doe@example.com', '123-456-7890', 'O+', '2024-06-15', 'Dhaka', TRUE),

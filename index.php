@@ -3,7 +3,11 @@ require_once 'config.php';
 
 // Fetch top needed blood groups using the VIEW
 $top_needed_blood = [];
+
+// SQL query to get the top 3 blood groups with the highest units needed
 $sql_needed = "SELECT blood_group, SUM(units_needed) AS total_units FROM v_urgent_blood_needs GROUP BY blood_group ORDER BY total_units DESC LIMIT 3";
+
+
 $result_needed = $conn->query($sql_needed);
 if ($result_needed && $result_needed->num_rows > 0) {
     while ($row = $result_needed->fetch_assoc()) {
@@ -11,9 +15,12 @@ if ($result_needed && $result_needed->num_rows > 0) {
     }
 }
 
-// Fetch recent donors (e.g., most recent 5 donors)
+// Fetch recent donors (recent 5 donors)
 $recent_donors = [];
+
+// SQL query to get the last 5 donors who have donated blood
 $sql_recent_donors = "SELECT name, blood_group, last_donation_date FROM donors WHERE last_donation_date IS NOT NULL ORDER BY last_donation_date DESC LIMIT 5";
+
 $result_recent_donors = $conn->query($sql_recent_donors);
 if ($result_recent_donors && $result_recent_donors->num_rows > 0) {
     while ($row = $result_recent_donors->fetch_assoc()) {
@@ -36,6 +43,18 @@ if ($result_recent_donations && $result_recent_donations->num_rows > 0) {
 
 $conn->close();
 ?>
+
+
+
+
+
+
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -50,18 +69,18 @@ $conn->close();
     <!-- Header -->
     <header class="header">
         <div class="container header-content">
-            <h1 class="site-title">BloodLink</h1>
+            <h1 class="site-title">Rokto-Link</h1>
             <nav>
                 <ul class="nav-list">
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#features">Features</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                    <li><a href="#need-blood">Need Blood</a></li>
-                    <li><a href="#recent-donors">Recent Donors</a></li>
-                    <li><a href="#donation-history">Donation History</a></li>
-                    <li><a href="donors.php">All Donors</a></li>
-                    <li><a href="recipients.php">All Recipients</a></li>
-                    <li><a href="search.php">Search</a></li>
+                    <li><a href="#home" >Home</a></li>
+                    <li><a href="#features" >Features</a></li>
+                    <li><a href="#contact" >Contact</a></li>
+                    <li><a href="#need-blood" >Need Blood</a></li>
+                    <li><a href="#recent-donors" >Recent Donors</a></li>
+                    <li><a href="#donation-history" >Donation History</a></li>
+                    <li><a href="donors.php" class="dashboard-button">All Donors</a></li>
+                    <li><a href="recipients.php" class="dashboard-button">All Recipients</a></li>
+                    <li><a href="search.php" class="dashboard-button">Search</a></li>
                     <li><a href="dashboard.php" class="dashboard-button">Dashboard</a></li>
                 </ul>
             </nav>
@@ -83,17 +102,17 @@ $conn->close();
             <h3 class="section-title">Why Donate Blood?</h3>
             <div class="grid-3-cols">
                 <div class="info-card">
-                    <img src="https://placehold.co/60x60/f87171/ffffff?text=❤️" alt="Heart Icon" class="info-icon">
+                    <img src="img/life_icon.png" alt="Bandage Icon" height='100px' alt="Heart Icon" class="info-icon">
                     <h4 class="info-card-title">Life-Saving Impact</h4>
                     <p class="info-card-text">Your single donation can save up to three lives. It's a simple act with profound impact.</p>
                 </div>
                 <div class="info-card">
-                    <img src="https://placehold.co/60x60/f87171/ffffff?text=🩹" alt="Bandage Icon" class="info-icon">
+                    <img src="img/bandage_icon.png" alt="Bandage Icon" height='100px' class="info-icon">
                     <h4 class="info-card-title">For Emergencies</h4>
                     <p class="info-card-text">Blood is constantly needed for accident victims, surgeries, and chronic illnesses.</p>
                 </div>
                 <div class="info-card">
-                    <img src="https://placehold.co/60x60/f87171/ffffff?text=🏥" alt="Hospital Icon" class="info-icon">
+                    <img src="img/hospital_icon.png" alt="Hospital Icon" height='100px' class="info-icon">
                     <h4 class="info-card-title">Community Health</h4>
                     <p class="info-card-text">Maintaining a healthy blood supply is crucial for the well-being of our entire community.</p>
                 </div>
@@ -107,22 +126,22 @@ $conn->close();
             <h3 class="section-title">Our Features</h3>
             <div class="grid-4-cols">
                 <div class="feature-card">
-                    <img src="https://placehold.co/60x60/ef4444/ffffff?text=🔍" alt="Search Icon" class="feature-icon">
+                    <img src="img/find_doner_icon.png" height="100px" alt="Search Icon" class="feature-icon">
                     <h4 class="feature-card-title">Find Donors</h4>
                     <p class="feature-card-text">Quickly locate available donors by blood group and location.</p>
                 </div>
                 <div class="feature-card">
-                    <img src="https://placehold.co/60x60/ef4444/ffffff?text=📝" alt="Register Icon" class="feature-icon">
+                    <img src="img/register_icon.png" height="100px" alt="Register Icon" class="feature-icon">
                     <h4 class="feature-card-title">Register as Donor</h4>
                     <p class="feature-card-text">Easy registration process to become a part of our donor network.</p>
                 </div>
                 <div class="feature-card">
-                    <img src="https://placehold.co/60x60/ef4444/ffffff?text=🩸" alt="Blood Drop Icon" class="feature-icon">
+                    <img src="img/request_icon.png" height="100px" alt="Blood Drop Icon" class="feature-icon">
                     <h4 class="feature-card-title">Request Blood</h4>
                     <p class="feature-card-text">Submit urgent or regular blood requests for patients in need.</p>
                 </div>
                 <div class="feature-card">
-                    <img src="https://placehold.co/60x60/ef4444/ffffff?text=📊" alt="Dashboard Icon" class="feature-icon">
+                    <img src="img/dashboard_icon.png" height="100px" alt="Dashboard Icon" class="feature-icon">
                     <h4 class="feature-card-title">Dashboard Access</h4>
                     <p class="feature-card-text">Manage all data, view statistics, and perform CRUD operations.</p>
                 </div>
@@ -237,7 +256,7 @@ $conn->close();
                 </form>
                 <div class="contact-info">
                     <p>Or call us at: <span class="font-semibold">123-456-7890</span></p>
-                    <p>Email: <span class="font-semibold">info@bloodlink.org</span></p>
+                    <p>Email: <span class="font-semibold">info@rokto-link.org</span></p>
                 </div>
             </div>
         </div>
@@ -246,7 +265,7 @@ $conn->close();
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; <?php echo date("Y"); ?> BloodLink. All rights reserved.</p>
+            <p>&copy; <?php echo date("Y"); ?> Rokto-Link. All rights reserved.</p>
         </div>
     </footer>
 
