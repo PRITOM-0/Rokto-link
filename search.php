@@ -10,6 +10,11 @@ $city_filter = isset($_GET['city']) ? sanitize_input($_GET['city']) : '';
 
 if (!empty($search_type) && (!empty($search_query) || !empty($blood_group_filter) || !empty($status_filter) || !empty($city_filter))) {
     switch ($search_type) {
+
+
+
+
+
         case 'donors':
             $sql = "SELECT * FROM donors WHERE 1=1";
             $params = [];
@@ -34,6 +39,23 @@ if (!empty($search_type) && (!empty($search_query) || !empty($blood_group_filter
             }
             $sql .= " ORDER BY name ASC";
             break;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         case 'requests':
             $sql = "SELECT br.*, r.name AS recipient_name, r.phone AS recipient_phone, r.hospital_name
@@ -62,6 +84,22 @@ if (!empty($search_type) && (!empty($search_query) || !empty($blood_group_filter
             $sql .= " ORDER BY br.request_date DESC";
             break;
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         case 'donation_history':
             $sql = "SELECT dh.*, d.name AS donor_name, d.email AS donor_email, d.phone AS donor_phone
                     FROM donation_history dh
@@ -85,6 +123,16 @@ if (!empty($search_type) && (!empty($search_query) || !empty($blood_group_filter
             $sql .= " ORDER BY dh.donation_date DESC";
             break;
 
+
+
+
+
+
+
+
+
+
+
         case 'inventory':
             $sql = "SELECT * FROM blood_inventory WHERE 1=1";
             $params = [];
@@ -97,6 +145,14 @@ if (!empty($search_type) && (!empty($search_query) || !empty($blood_group_filter
             }
             $sql .= " ORDER BY blood_group ASC";
             break;
+
+
+
+
+
+
+
+            
 
         default:
             $sql = ""; // No valid search type
@@ -127,9 +183,10 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search - Blood Donation Management</title>
+    <title>Search - Rokto-Link</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="img/icon.png">
 </head>
 <body class="font-inter">
 

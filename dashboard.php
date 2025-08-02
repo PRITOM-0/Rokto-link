@@ -1,5 +1,5 @@
 <?php
-require_once 'config.php'; // Include database connection
+require_once 'config.php'; 
 
 // Check connection
 if ($conn->connect_error) {
@@ -11,13 +11,10 @@ $error = '';
 
 // --- Helper Functions for Database Operations ---
 
-/**
- * Fetches all records from a given table.
- * @param mysqli $conn The MySQLi database connection object.
- * @param string $tableName The name of the table.
- * @param string $orderByColumn The column to order by.
- * @return array An array of associative arrays, each representing a row.
- */
+
+
+
+
 function getAllData($conn, $tableName, $orderByColumn = 'id') {
     try {
         // Basic ordering, adjust as needed per table
@@ -42,17 +39,15 @@ function getAllData($conn, $tableName, $orderByColumn = 'id') {
     }
 }
 
-/**
- * Inserts a new record into a table.
- * @param mysqli $conn The MySQLi database connection object.
- * @param string $tableName The name of the table.
- * @param array $data An associative array of column_name => value.
- * @return bool True on success, false on failure.
- */
+
+
+
+
+
 function insertData($conn, $tableName, $data) {
     global $message, $error;
 
-    // Filter out empty values (e.g., from empty text inputs)
+    
     $filtered_data = array_filter($data, function($value) {
         return $value !== '';
     });
@@ -108,15 +103,13 @@ function insertData($conn, $tableName, $data) {
     }
 }
 
-/**
- * Updates an existing record in a table.
- * @param mysqli $conn The MySQLi database connection object.
- * @param string $tableName The name of the table.
- * @param int $id The ID of the record to update.
- * @param array $data An associative array of column_name => value.
- * @param string $idColumn The name of the ID column (default 'id').
- * @return bool True on success, false on failure.
- */
+
+
+
+
+
+
+
 function updateData($conn, $tableName, $id, $data, $idColumn = 'id') {
     global $message, $error;
 
@@ -181,14 +174,21 @@ function updateData($conn, $tableName, $id, $data, $idColumn = 'id') {
     }
 }
 
-/**
- * Deletes a record from a table.
- * @param mysqli $conn The MySQLi database connection object.
- * @param string $tableName The name of the table.
- * @param int $id The ID of the record to delete.
- * @param string $idColumn The name of the ID column (default 'id').
- * @return bool True on success, false on failure.
- */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function deleteData($conn, $tableName, $id, $idColumn = 'id') {
     global $message, $error;
     $sql = "DELETE FROM $tableName WHERE $idColumn = ?";
@@ -415,9 +415,10 @@ $tableConfigs = [
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blood Donation Management Dashboard</title>
+    <title>Rokto-Link</title>
     <link rel="stylesheet" href="dashboard.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="img/icon.png">
 </head>
 <body>
     <!-- Header -->

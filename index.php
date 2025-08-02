@@ -60,9 +60,10 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blood Donation Management</title>
+    <title>Rokto-Link</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="img/icon.png">
 </head>
 <body class="font-inter">
 
@@ -153,6 +154,14 @@ $conn->close();
     <section id="need-blood" class="top-needed-section">
         <div class="container text-center">
             <h3 class="section-title">Top Needed Blood Groups (Urgent Requests)</h3>
+
+
+
+
+
+
+
+
             <?php if (!empty($top_needed_blood)): ?>
                 <div class="grid-3-cols max-width-content">
                     <?php foreach ($top_needed_blood as $blood): ?>
@@ -165,6 +174,16 @@ $conn->close();
             <?php else: ?>
                 <p class="no-data-message">No urgent blood requests at the moment. Please check back later.</p>
             <?php endif; ?>
+
+
+
+
+
+
+
+
+
+
         </div>
     </section>
 
@@ -172,6 +191,22 @@ $conn->close();
     <section id="recent-donors" class="recent-donors-section">
         <div class="container text-center">
             <h3 class="section-title">Recent Donors</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             <?php if (!empty($recent_donors)): ?>
                 <div class="table-container">
                     <table class="data-table">
@@ -196,6 +231,25 @@ $conn->close();
             <?php else: ?>
                 <p class="no-data-message">No recent donor information available.</p>
             <?php endif; ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         </div>
     </section>
 
@@ -203,6 +257,20 @@ $conn->close();
     <section id="donation-history" class="donation-history-section">
         <div class="container text-center">
             <h3 class="section-title">Recent Donation History</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             <?php if (!empty($recent_donations)): ?>
                 <div class="table-container">
                     <table class="data-table">
@@ -229,6 +297,22 @@ $conn->close();
             <?php else: ?>
                 <p class="no-data-message">No recent donation history available.</p>
             <?php endif; ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
         </div>
     </section>
 
